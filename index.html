@@ -17,48 +17,77 @@
     <div class="app-container fade-in">
         <header class="app-header">
             <div class="badge">Matematika SMA / Kelas X</div>
-            <h1>Misteri Penjualan Kopi ☕</h1>
-            <p>Eksplorasi Interaktif Ukuran Pemusatan Data (Mean, Median, Modus)</p>
+            <h1>Eksplorasi Ukuran Pemusatan Data ✨</h1>
+            <p>Mari pahami konsepnya, lalu pecahkan misterinya!</p>
         </header>
 
-        <section class="story-board">
-            <h3>Kasus Hari Ini:</h3>
-            <p>Koperasi Mahasiswa sedang menganalisis penjualan "Es Kopi Susu" selama 5 hari terakhir. Penjualannya
-                cukup stabil di angka 20-40 gelas per hari. Namun, hari ini tiba-tiba ada pesanan mendadak untuk rapat
-                rektorat sebanyak <strong>100 gelas!</strong></p>
-            <div class="instruction-box">
-                <strong>Tugas Eksplorasi:</strong><br>
-                Coba geser salah satu slider data menjadi angka 100. Amati angka mana yang berubah drastis (Mean atau
-                Median?). Menurutmu, angka mana yang lebih jujur menggambarkan penjualan sehari-hari?
+        <section class="materi-section reveal">
+            <h2>📚 Pojok Materi</h2>
+            <p class="subtitle">Sebelum menganalisis kasus, mari ingat kembali 3 ukuran penting ini:</p>
+
+            <div class="materi-cards">
+                <div class="m-card mean-theme">
+                    <div class="icon">📊</div>
+                    <h4>Mean (Rata-rata)</h4>
+                    <p>Membagi jumlah seluruh nilai data dengan banyaknya data. Sangat sensitif terhadap nilai ekstrem
+                        (pencilan).</p>
+                    <div class="rumus">x̄ = Σx / n</div>
+                </div>
+                <div class="m-card median-theme">
+                    <div class="icon">🎯</div>
+                    <h4>Median (Nilai Tengah)</h4>
+                    <p>Nilai yang membagi data menjadi dua bagian sama banyak setelah data diurutkan dari terkecil ke
+                        terbesar.</p>
+                    <div class="rumus">Q₂ / Me</div>
+                </div>
+                <div class="m-card modus-theme">
+                    <div class="icon">🔥</div>
+                    <h4>Modus (Paling Sering)</h4>
+                    <p>Nilai data yang memiliki frekuensi kemunculan paling tinggi. Sebuah data bisa memiliki lebih dari
+                        satu modus.</p>
+                    <div class="rumus">Mo</div>
+                </div>
             </div>
         </section>
 
-        <div class="toolbar">
-            <button class="btn btn-add" onclick="addData()">+ Tambah Hari</button>
-            <button class="btn btn-remove" onclick="removeData()">- Kurangi Hari</button>
-        </div>
-
-        <div class="controls-container" id="sliders"></div>
-
-        <div class="chart-container">
-            <canvas id="statChart"></canvas>
-        </div>
-
-        <div class="results-container">
-            <div class="result-card mean-card">
-                <h3>Mean (Rata-rata)</h3>
-                <span class="value" id="mean-display">0</span>
-                <div class="tooltip">Total penjualan dibagi jumlah hari</div>
+        <section class="story-board reveal">
+            <h3>☕ Kasus Hari Ini: Misteri Penjualan Kopi</h3>
+            <p>Koperasi Mahasiswa sedang menganalisis penjualan "Es Kopi Susu" selama 5 hari terakhir. Penjualannya
+                cukup stabil di angka 20-40 gelas per hari. Namun, hari ini tiba-tiba ada pesanan mendadak untuk rapat
+                rektorat sebanyak <strong>100 gelas!</strong></p>
+            <div class="instruction-box pulse-anim">
+                <strong>Tugas Eksplorasimu:</strong><br>
+                Ubah salah satu data penjualan menjadi 100 menggunakan slider di bawah. Amati hasilnya! Apakah
+                <em>Mean</em> atau <em>Median</em> yang berubah paling drastis? Mana yang lebih jujur menggambarkan
+                penjualan harian koperasi?
             </div>
-            <div class="result-card median-card">
-                <h3>Median (Nilai Tengah)</h3>
-                <span class="value" id="median-display">0</span>
-                <div class="tooltip">Nilai pas di tengah setelah data diurutkan</div>
+        </section>
+
+        <div class="interactive-area reveal">
+            <div class="toolbar">
+                <button class="btn btn-add" onclick="addData()">+ Tambah Hari</button>
+                <button class="btn btn-remove" onclick="removeData()">- Kurangi Hari</button>
             </div>
-            <div class="result-card modus-card">
-                <h3>Modus (Sering Muncul)</h3>
-                <span class="value" id="modus-display">-</span>
-                <div class="tooltip">Angka penjualan yang paling sering terjadi</div>
+
+            <div class="controls-container" id="sliders"></div>
+
+            <div class="chart-container">
+                <canvas id="statChart"></canvas>
+            </div>
+
+            <div class="results-container">
+                <div class="result-card mean-card">
+                    <h3>Mean (Rata-rata)</h3>
+                    <span class="value" id="mean-display">0</span>
+                </div>
+                <div class="result-card median-card">
+                    <h3>Median (Nilai Tengah)</h3>
+                    <span class="value" id="median-display">0</span>
+                </div>
+                <div class="result-card modus-card">
+                    <h3>Modus (Sering Muncul)</h3>
+                    <span class="value" id="modus-display">-</span>
+                </div>
             </div>
         </div>
     </div>
