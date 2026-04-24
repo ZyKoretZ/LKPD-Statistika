@@ -1,7 +1,24 @@
-// Data Default Penjualan Kopi
 let dataValues = [25, 30, 22, 40, 28];
 let statChart;
 
+// --- FITUR BARU: Animasi Scroll (Reveal) ---
+function revealElements() {
+    let reveals = document.querySelectorAll('.reveal');
+    for (let i = 0; i < reveals.length; i++) {
+        let windowHeight = window.innerHeight;
+        let elementTop = reveals[i].getBoundingClientRect().top;
+        let elementVisible = 100;
+
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add('active');
+        }
+    }
+}
+window.addEventListener('scroll', revealElements);
+// Panggil sekali saat pertama load agar elemen atas langsung muncul
+setTimeout(revealElements, 100);
+
+// --- RENDER SLIDERS ---
 function renderSliders() {
     const container = document.getElementById('sliders');
     container.innerHTML = '';
@@ -27,8 +44,8 @@ function initChart() {
                 label: 'Gelas Terjual',
                 data: dataValues,
                 backgroundColor: 'rgba(59, 130, 246, 0.8)',
-                hoverBackgroundColor: 'rgba(37, 99, 235, 1)',
-                borderRadius: 8, // Membuat ujung bar melengkung
+                hoverBackgroundColor: 'rgba(245, 158, 11, 1)', // Warna berubah orange saat di hover
+                borderRadius: 8,
                 borderSkipped: false
             }]
         },
@@ -36,20 +53,11 @@ function initChart() {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 120,
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
+                y: { beginAtZero: true, max: 120, grid: { color: 'rgba(0,0,0,0.05)' } },
                 x: { grid: { display: false } }
             },
-            animation: {
-                duration: 400, // Animasi transisi 400ms
-                easing: 'easeOutQuart'
-            },
-            plugins: {
-                legend: { display: false }
-            }
+            animation: { duration: 500, easing: 'easeOutQuart' },
+            plugins: { legend: { display: false } }
         }
     });
 }
@@ -60,9 +68,7 @@ function calculateStats(arr) {
 
     let sorted = [...arr].sort((a, b) => a - b);
     let mid = Math.floor(sorted.length / 2);
-    let median = sorted.length % 2 !== 0
-        ? sorted[mid]
-        : ((sorted[mid - 1] + sorted[mid]) / 2).toFixed(1);
+    let median = sorted.length % 2 !== 0 ? sorted[mid] : ((sorted[mid - 1] + sorted[mid]) / 2).toFixed(1);
 
     let freq = {};
     let maxFreq = 0;
@@ -76,7 +82,6 @@ function calculateStats(arr) {
     for (let key in freq) {
         if (freq[key] === maxFreq) modes.push(key);
     }
-
     let modus = (maxFreq === 1) ? "-" : modes.join(', ');
 
     return { mean, median, modus };
@@ -90,40 +95,32 @@ function updateData(index, value) {
 }
 
 function addData() {
-    if (dataValues.length >= 10) {
-        alert("Batas maksimal 10 hari simulasi.");
-        return;
-    }
+    if (dataValues.length >= 10) return alert("Batas maksimal 10 hari simulasi.");
     dataValues.push(30);
-    renderSliders();
-    updateUI(true);
+    renderSliders(); updateUI(true);
 }
 
 function removeData() {
-    if (dataValues.length <= 3) {
-        alert("Minimal 3 hari untuk perbandingan data.");
-        return;
-    }
+    if (dataValues.length <= 3) return alert("Minimal 3 hari untuk perbandingan data.");
     dataValues.pop();
-    renderSliders();
-    updateUI(true);
+    renderSliders(); updateUI(true);
 }
 
-// Fungsi untuk memberi efek animasi saat angka berubah
 function animateValue(id, newValue) {
     const obj = document.getElementById(id);
-    obj.style.transform = 'scale(1.2)';
-    obj.innerText = newValue;
-    setTimeout(() => {
-        obj.style.transform = 'scale(1)';
-    }, 150);
-    obj.style.transition = 'transform 0.15s ease-out';
+    if (obj.innerText !== newValue) {
+        obj.style.transform = 'scale(1.4) translateY(-5px)';
+        obj.style.color = '#fff';
+        obj.innerText = newValue;
+        setTimeout(() => {
+            obj.style.transform = 'scale(1) translateY(0)';
+        }, 200);
+        obj.style.transition = 'all 0.2s ease-out';
+    }
 }
 
 function updateUI(labelsChanged = false) {
-    if (labelsChanged) {
-        statChart.data.labels = dataValues.map((_, i) => `Hari ${i + 1}`);
-    }
+    if (labelsChanged) statChart.data.labels = dataValues.map((_, i) => `Hari ${i + 1}`);
     statChart.data.datasets[0].data = dataValues;
     statChart.update();
 
@@ -133,7 +130,6 @@ function updateUI(labelsChanged = false) {
     animateValue('modus-display', stats.modus);
 }
 
-// Menjalankan inisialisasi awal
 renderSliders();
 initChart();
 updateUI();
